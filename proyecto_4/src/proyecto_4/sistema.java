@@ -44,6 +44,8 @@ public class sistema extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         panel = new javax.swing.JPanel();
         label__manejable = new javax.swing.JLabel();
+        inportar = new javax.swing.JButton();
+        exportar = new javax.swing.JButton();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -105,6 +107,10 @@ public class sistema extends javax.swing.JFrame {
 
         label__manejable.setText("Nombre del estudiante");
 
+        inportar.setText("Inportar");
+
+        exportar.setText("Exportar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -140,9 +146,13 @@ public class sistema extends javax.swing.JFrame {
                         .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(82, 82, 82)
+                        .addGap(28, 28, 28)
                         .addComponent(label__manejable)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(31, 31, 31)
+                        .addComponent(inportar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(exportar)
+                        .addGap(58, 58, 58))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,9 +160,12 @@ public class sistema extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 17, Short.MAX_VALUE)
-                        .addComponent(label__manejable)
-                        .addGap(18, 18, 18)
+                        .addGap(0, 15, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(label__manejable)
+                            .addComponent(inportar)
+                            .addComponent(exportar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20))
                     .addGroup(layout.createSequentialGroup()
@@ -223,6 +236,8 @@ public class sistema extends javax.swing.JFrame {
     private javax.swing.JTextField cantidadest;
     private javax.swing.JTextField cantidadnotas;
     private javax.swing.JButton crear_tabla;
+    private javax.swing.JButton exportar;
+    private javax.swing.JButton inportar;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
