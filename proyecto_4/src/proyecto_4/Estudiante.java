@@ -9,13 +9,6 @@ package proyecto_4;
  *
  * @author ASUS
  */
-public class Proyecto_4 {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
+public class Estudiante {
     
 }
