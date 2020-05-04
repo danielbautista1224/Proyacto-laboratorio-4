@@ -5,10 +5,20 @@
  */
 package proyecto_4;
 
+import java.util.Vector;
+
 /**
  *
  * @author ASUS
  */
 public class Estudiante {
+    public String Nombre;
+    public Vector notas=new Vector();
     
-}
+    
+    public Estudiante (String Nombre,Vector notas){
+        this.notas=notas;
+        this.Nombre=Nombre;    
+    }
+    Estudiante(){}
+ }
