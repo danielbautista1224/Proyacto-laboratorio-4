@@ -5,6 +5,8 @@
  */
 package proyecto_4;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ASUS
@@ -76,6 +78,11 @@ public class sistema extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         crear_tabla.setText("Crear Tabla");
+        crear_tabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crear_tablaActionPerformed(evt);
+            }
+        });
 
         calcular_finales.setText("calcular finales");
 
@@ -195,6 +202,19 @@ public class sistema extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void crear_tablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crear_tablaActionPerformed
+        String numeroest=cantidadest.getText();
+        String numeronotas=cantidadnotas.getText();
+       
+        int cols=Integer.parseInt(numeronotas)+1;
+        int rows=Integer.parseInt(numeroest);
+        jTable1.setModel(new DefaultTableModel(rows,cols));
+        for(int columna=0;columna<cols;columna++)
+        {
+            jTable1.setValueAt("-",0,columna);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_crear_tablaActionPerformed
 
     /**
      * @param args the command line arguments

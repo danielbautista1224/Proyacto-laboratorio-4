@@ -200,6 +200,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Crear Tabla"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="crear_tablaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="calcular_finales">
       <Properties>
