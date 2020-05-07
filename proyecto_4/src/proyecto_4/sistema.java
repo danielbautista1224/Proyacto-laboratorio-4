@@ -502,8 +502,7 @@ public class sistema extends javax.swing.JFrame {
     private void exportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportarActionPerformed
         FileWriter escribir = null;
 
-        //escribir.append((String) jTable1.getValueAt(j, y), j, y);
-        // escribir.append("nombre");
+        
         try {
             escribir = new FileWriter("Exportar.csv");
 
