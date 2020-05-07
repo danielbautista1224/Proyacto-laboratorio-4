@@ -5,6 +5,22 @@
  */
 package proyecto_4;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+
+import java.io.IOException;
+
+import javax.swing.JOptionPane;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -13,9 +29,111 @@ import javax.swing.table.DefaultTableModel;
  */
 public class sistema extends javax.swing.JFrame {
 
-    /**
-     * Creates new form sistema
-     */
+    int rows = 0;
+    int cols = 0;
+
+    File Archivo = new File("Importar.csv");
+    String Linea;
+    String[] Valores;
+
+    String datos = "Importar.csv";
+    BufferedReader br = null;
+    String linea = "";
+    String comando = ";";
+    String info[];
+    String infom[][];
+
+    ArrayList e = new ArrayList();
+    ArrayList ff = new ArrayList();
+    ArrayList af = new ArrayList();
+    ArrayList nombres = new ArrayList();
+
+    public void searchhistorico() {
+
+    }
+
+    public void savelist(int rows, int cols) {
+
+        List<List<String>> ListaA = new ArrayList<List<String>>();
+
+        for (int i = 0; i < rows; i++) {
+            ListaA.add(new ArrayList<String>());
+
+            for (int k = 0; k < cols; k++) {
+
+                ListaA.get(i).add((String) jTable1x.getValueAt(i, k));
+            }
+        }
+        System.out.println();
+        System.out.println(ListaA);
+        Notas((ArrayList) ListaA);
+
+    }
+
+    public void Notas(ArrayList A) {
+
+        System.out.println(A);
+        System.out.println("xxxx");
+
+        int o = A.size();
+        float ca = 0;
+        float prom2 = 0;
+        float prom1 = 0;
+
+        float f = 0, prom = 0, result = 0;
+        boolean a;
+
+        e = (ArrayList) A.get(0); // para obtener la cantidad de notas
+        for (int i = 0; i < e.size() - 1; i++) {
+            f = 0;
+            e = (ArrayList) A.get(i);// obtengo la información de cada estudiante
+            nombres.add(e.get(0)); // almaceno el nombre de cda estudiante en lista nombres
+            for (int j = 1; j < e.size(); j++) {
+
+                //  f = (float)           (String) ) + f;    // sumo las notas individuales 
+                f = Float.parseFloat((String) e.get(j)) + f;
+            }
+
+            result = f / (e.size() - 1);
+            ff.add(f / (e.size() - 1)); // obtengo el promedio individual y lo almaceno en la lista ff
+
+            if (result >= 3) {
+                af.add("Aprobo");
+                ca++;
+            } else {
+                af.add("Reprobo");
+
+            }
+
+        }
+
+        for (int i = 0; i < A.size(); i++) {
+            System.out.println(A.get(i)); // imprimo la info de cada estudiante
+        }
+        System.out.println("\n");// espacio aparte
+
+        for (int i = 0; i < A.size(); i++) {
+
+            System.out.println(A.size());
+
+            ResultadoTable.setValueAt(nombres.get(i), i, 0);
+            ResultadoTable.setValueAt(ff.get(i), i, 1);
+            ResultadoTable.setValueAt(af.get(i), i, 2);
+
+            System.out.println(nombres.get(i) + "  Promedio: " + ff.get(i) + af.get(i)); // imprimo el promedio individual
+
+            prom = (float) ff.get(i) + prom; // acumulo los promedios. 
+
+        }
+        prom = prom / ff.size(); // obtengo el promedio grupal
+        prom1 = (ca / A.size()) * 100;
+        prom2 = 100 - prom1;
+        APRO.setText("" + prom1 + "%");
+        Repro.setText("" + prom2 + "%");
+
+        System.out.println("\n Promedio general del curso:" + prom + "\n");            // imprimo promedio grupal
+    }
+
     public sistema() {
         initComponents();
     }
@@ -32,22 +150,26 @@ public class sistema extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1x = new javax.swing.JTable();
         crear_tabla = new javax.swing.JButton();
         calcular_finales = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        MostrarHistorico = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        ResultadoTable = new javax.swing.JTable();
         cantidadest = new javax.swing.JTextField();
         cantidadnotas = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        Busca = new javax.swing.JTextField();
         panel = new javax.swing.JPanel();
         label__manejable = new javax.swing.JLabel();
         inportar = new javax.swing.JButton();
         exportar = new javax.swing.JButton();
+        Repro = new javax.swing.JTextField();
+        APRO = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -64,7 +186,7 @@ public class sistema extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1x.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -75,7 +197,7 @@ public class sistema extends javax.swing.JFrame {
                 "Nombre", "Nota 1", "Nota 2", "Nota 3"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTable1x);
 
         crear_tabla.setText("Crear Tabla");
         crear_tabla.addActionListener(new java.awt.event.ActionListener() {
@@ -85,8 +207,18 @@ public class sistema extends javax.swing.JFrame {
         });
 
         calcular_finales.setText("calcular finales");
+        calcular_finales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calcular_finalesActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Mostrar historico");
+        MostrarHistorico.setText("Mostrar historico");
+        MostrarHistorico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MostrarHistoricoActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Cantidad de Estudiantes");
@@ -96,7 +228,7 @@ public class sistema extends javax.swing.JFrame {
 
         jLabel3.setText("Nombre del estudiante");
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        ResultadoTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -107,16 +239,42 @@ public class sistema extends javax.swing.JFrame {
                 "Nombre", "Definitiva", "Resultado"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(ResultadoTable);
 
         panel.setBackground(new java.awt.Color(153, 153, 153));
         panel.setLayout(new java.awt.BorderLayout());
 
-        label__manejable.setText("Nombre del estudiante");
+        label__manejable.setText("Archivo");
 
-        inportar.setText("Inportar");
+        inportar.setText("Importar");
+        inportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inportarActionPerformed(evt);
+            }
+        });
 
         exportar.setText("Exportar");
+        exportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportarActionPerformed(evt);
+            }
+        });
+
+        Repro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReproActionPerformed(evt);
+            }
+        });
+
+        APRO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                APROActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Aprobo");
+
+        jLabel5.setText("Reprobo");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -131,11 +289,11 @@ public class sistema extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(crear_tabla)
-                                    .addComponent(jButton3))
+                                    .addComponent(MostrarHistorico))
                                 .addGap(16, 16, 16)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel3)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Busca, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(calcular_finales)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
@@ -149,32 +307,35 @@ public class sistema extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(label__manejable)
-                        .addGap(31, 31, 31)
+                        .addGap(38, 38, 38)
                         .addComponent(inportar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(exportar)
-                        .addGap(58, 58, 58))))
+                        .addGap(83, 83, 83))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
+                        .addGap(113, 113, 113))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(APRO, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Repro, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(79, 79, 79))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 15, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(label__manejable)
-                            .addComponent(inportar)
-                            .addComponent(exportar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(32, 32, 32)
@@ -191,30 +352,195 @@ public class sistema extends javax.swing.JFrame {
                             .addComponent(calcular_finales))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(MostrarHistorico)
+                            .addComponent(Busca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
+                        .addGap(9, 9, 9)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addGap(20, 20, 20))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(inportar)
+                            .addComponent(label__manejable)
+                            .addComponent(exportar))
+                        .addGap(18, 18, 18)
+                        .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(APRO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Repro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(30, Short.MAX_VALUE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void crear_tablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crear_tablaActionPerformed
-        String numeroest=cantidadest.getText();
-        String numeronotas=cantidadnotas.getText();
-       
-        int cols=Integer.parseInt(numeronotas)+1;
-        int rows=Integer.parseInt(numeroest);
-        jTable1.setModel(new DefaultTableModel(rows,cols));
-        for(int columna=0;columna<cols;columna++)
-        {
-            jTable1.setValueAt("-",0,columna);
-        }        // TODO add your handling code here:
+        String numeroest = cantidadest.getText();
+        String numeronotas = cantidadnotas.getText();
+
+        cols = Integer.parseInt(numeronotas) + 1;
+        rows = Integer.parseInt(numeroest);
+        jTable1x.setModel(new DefaultTableModel(rows, cols));
+        ResultadoTable.setModel(new DefaultTableModel(rows, 3));
+
     }//GEN-LAST:event_crear_tablaActionPerformed
+
+    private void calcular_finalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcular_finalesActionPerformed
+
+        savelist(rows, cols);
+
+
+    }//GEN-LAST:event_calcular_finalesActionPerformed
+
+    private void MostrarHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarHistoricoActionPerformed
+
+        String Aux;
+        String Aux2 = null;
+        float aux[] = null;
+
+        System.out.println(rows);
+        System.out.println(jTable1x.getValueAt(1, 2));
+        System.out.println(jTable1x.getValueAt(0, 2));
+
+        for (int j = 0; j < rows; j++) {
+            System.out.println(" entrooo");
+            Aux = (String) Busca.getText();
+
+            if (Aux.equals(jTable1x.getValueAt(j, 0))) {
+                System.out.println(" entrooo22222");
+                for (int k = 1; k < cols; k++) {
+
+                    System.out.println(Float.parseFloat((String) jTable1x.getValueAt(j, k)));
+
+                    // Aqui se debe crear grafica  datos para la grafica es la anterior linea
+                }
+            } else {
+                if (j == rows - 1) {
+                    Busca.setText("NO Existe");
+                }
+            }
+        }
+
+
+    }//GEN-LAST:event_MostrarHistoricoActionPerformed
+
+    private void inportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inportarActionPerformed
+        rows = 5;
+        cols = 5 + 1;
+        jTable1x.setModel(new DefaultTableModel(5, 6));
+        ResultadoTable.setModel(new DefaultTableModel(5, 3));
+        List<List<String>> ListaB = new ArrayList<List<String>>();
+        try {
+            /*
+            try {
+            Scanner objeto = new Scanner(Archivo);
+            while (objeto.hasNext()) {
+            
+            Linea = objeto.nextLine();
+            
+            
+            Valores= Linea.split(",");
+            System.out.println(Valores[0]);
+            
+            
+            
+            }
+            
+            }
+            catch (FileNotFoundException ex
+            
+            
+            ) {
+            Logger.getLogger(sistema.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+             */
+
+            br = new BufferedReader(new FileReader(datos));
+            ArrayList L = new ArrayList();
+            while ((linea = br.readLine()) != null) {
+
+                info = linea.split(comando);
+
+                for (int j = 0; j < 5; j++) {
+
+                    System.out.println(info[j]);
+
+                    for (int y = 0; y < 6; y++) {
+
+                        jTable1x.setValueAt(info[y], j, y);
+
+                    }
+                }
+
+            }
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(sistema.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(sistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }//GEN-LAST:event_inportarActionPerformed
+
+    private void APROActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_APROActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_APROActionPerformed
+
+    private void ReproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReproActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ReproActionPerformed
+
+    private void exportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportarActionPerformed
+        FileWriter escribir = null;
+
+        //escribir.append((String) jTable1.getValueAt(j, y), j, y);
+        // escribir.append("nombre");
+        try {
+            escribir = new FileWriter("Exportar.csv");
+
+            for (int j = 0; j < rows; j++) {
+
+                for (int y = 0; y < cols; y++) {
+
+                    escribir.append(jTable1x.getValueAt(j, y) + ",");
+
+                }
+                escribir.append("\n");
+
+            }
+            escribir.append("\n");
+            for (int k = 0; k < rows; k++) {
+
+                for (int u = 0; u < 3; u++) {
+
+                    escribir.append(ResultadoTable.getValueAt(k, u) + ",");
+                }
+                escribir.append("\n");
+            }
+
+            //escribir.append(a);
+        } catch (IOException ex) {
+            Logger.getLogger(sistema.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                escribir.close();
+            } catch (IOException ex) {
+                Logger.getLogger(sistema.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+
+    }//GEN-LAST:event_exportarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -230,16 +556,24 @@ public class sistema extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(sistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(sistema.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(sistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(sistema.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(sistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(sistema.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(sistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(sistema.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -252,23 +586,27 @@ public class sistema extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField APRO;
+    private javax.swing.JTextField Busca;
+    private javax.swing.JButton MostrarHistorico;
+    private javax.swing.JTextField Repro;
+    private javax.swing.JTable ResultadoTable;
     private javax.swing.JButton calcular_finales;
     private javax.swing.JTextField cantidadest;
     private javax.swing.JTextField cantidadnotas;
     private javax.swing.JButton crear_tabla;
     private javax.swing.JButton exportar;
     private javax.swing.JButton inportar;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable1x;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel label__manejable;
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables
